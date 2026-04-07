@@ -40,6 +40,10 @@
             position: absolute; border-radius: 50%; object-fit: cover;
             border: 4px solid white; box-shadow: 0 5px 15px rgba(251, 111, 146, 0.3);
             cursor: pointer; user-select: none;
+            /* OPTIMASI HP */
+            will-change: transform;
+            transform: translate3d(0,0,0);
+            backface-visibility: hidden;
         }
 
         .good { border-color: var(--pink-main); }
@@ -141,7 +145,6 @@
                 this.el = document.createElement('img');
                 const rand = Math.random();
                 
-                // RASIO SPAWN: Bule (bad) dibuat lebih banyak (35% chance)
                 if (rand < 0.5) {
                     this.el.src = 'foto-senyum.jpg'; 
                     this.type = 'good';
@@ -149,7 +152,7 @@
                     this.pointValue = 10;
                     this.popupMsg = "+10 Cantik! ✨";
                 } else if (rand < 0.85) { 
-                    this.el.src = 'foto-ngambek.jpg'; // BULE (Ditingkatkan jumlahnya)
+                    this.el.src = 'foto-ngambek.jpg'; 
                     this.type = 'bad';
                     this.el.className = 'target bad';
                     this.pointValue = -20;
@@ -162,29 +165,31 @@
                     this.popupMsg = "+50 Ada Abang! ❤️";
                 }
 
-                this.size = 75 + (Math.random() * 30);
+                this.size = 70 + (Math.random() * 25);
                 this.el.style.width = this.size + 'px';
                 this.el.style.height = this.size + 'px';
 
                 this.x = Math.random() * (window.innerWidth - this.size);
                 this.y = Math.random() * (window.innerHeight - this.size - 120) + 120;
                 
-                // GERAKAN (Tetap Extreme)
-                const speedBase = 6 + (level * 2); 
+                // SPEED OPTIMIZED
+                const speedBase = 6 + (level * 1.5); 
                 this.dx = (Math.random() - 0.5) * speedBase;
                 this.dy = (Math.random() - 0.5) * speedBase;
                 
-                // ROTASI (Diperlambat biar pas)
                 this.rot = 0;
-                this.rotSpeed = (Math.random() - 0.5) * (5 + level); // Putaran lebih pelan dari sebelumnya
+                this.rotSpeed = (Math.random() - 0.5) * (4 + level);
+
+                // TOUCH OPTIMIZED
+                this.el.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.hit(e.touches[0].clientX, e.touches[0].clientY);
+                }, {passive: false});
 
                 this.el.addEventListener('mousedown', (e) => {
                     e.stopPropagation();
                     this.hit(e.clientX, e.clientY);
-                });
-                this.el.addEventListener('touchstart', (e) => {
-                    e.stopPropagation();
-                    this.hit(e.touches[0].clientX, e.touches[0].clientY);
                 });
 
                 stage.appendChild(this.el);
@@ -198,7 +203,8 @@
                 if (this.x <= 0 || this.x >= window.innerWidth - this.size) this.dx *= -1;
                 if (this.y <= 120 || this.y >= window.innerHeight - this.size) this.dy *= -1;
 
-                this.el.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${this.rot}deg)`;
+                // USE TRANSLATE3D FOR GPU ACCELERATION (MAKES IT SMOOTH ON MOBILE)
+                this.el.style.transform = `translate3d(${this.x}px, ${this.y}px, 0) rotate(${this.rot}deg)`;
             }
 
             hit(x, y) {
@@ -235,7 +241,10 @@
 
         function gameLoop() {
             if (!gameActive) return;
-            targets.forEach(t => t.update());
+            // UPDATE ALL TARGETS
+            for (let i = 0; i < targets.length; i++) {
+                targets[i].update();
+            }
             requestAnimationFrame(gameLoop);
         }
 
@@ -246,15 +255,16 @@
             scoreEl.innerText = score;
             lvlEl.innerText = level;
             
-            bgm.play().catch(e => console.log("Musik butuh interaksi"));
+            bgm.play().catch(e => console.log("Music needs interaction"));
 
             gameLoop();
 
             spawnInterval = setInterval(() => {
-                if (targets.length < 10 + (level * 2)) {
+                // BATASI JUMLAH FOTO DI LAYAR BIAR HP GAK LAG
+                if (targets.length < 8 + level) {
                     targets.push(new MovingPhoto());
                 }
-            }, 500 - (level * 35));
+            }, 600 - (level * 30));
 
             const countdown = setInterval(() => {
                 timeLeft--;
@@ -279,7 +289,6 @@
             targets.forEach(t => t.remove());
             document.getElementById('final-score').innerText = "Skor Kamu: " + score;
             
-            // LOGIKA CAPTION BERDASARKAN SKOR
             if (score >= 150) {
                 captionEl.innerHTML = "Gila! Skor kamu "+score+"! 😍<br>Kamu emang jago banget nangkep kebahagiaan. Fokusnya ngeri, pantesan aku juga ketangkep sama kamu. Love you sayangnya abang! ❤️";
             } else {
