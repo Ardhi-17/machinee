@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=none">
-    <title>Catch My Love: EXTREME Edition! ❤️</title>
+    <title>Catch My Love: ULTRA EXTREME Edition! ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,6 +11,7 @@
             --pink-main: #fb6f92;
             --pink-dark: #ff477e;
             --cream: #fff5f7;
+            --bule-border: #444; /* Bingkai lebih gelap buat Bule */
         }
 
         * {
@@ -28,68 +29,75 @@
         }
 
         .header {
-            position: fixed; top: 15px; width: 90%; left: 50%; transform: translateX(-50%);
-            display: flex; justify-content: space-around; padding: 10px;
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px);
-            z-index: 100; border-radius: 20px; border: 2px solid white;
-            box-shadow: 0 8px 20px rgba(251, 111, 146, 0.15);
+            position: fixed; top: 15px; width: 92%; left: 50%; transform: translateX(-50%);
+            display: flex; justify-content: space-around; padding: 12px;
+            background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(8px);
+            z-index: 100; border-radius: 25px; border: 2px solid white;
+            box-shadow: 0 10px 25px rgba(251, 111, 146, 0.2);
         }
 
         .stat-item { text-align: center; }
-        .stat-value { font-size: 1.1rem; font-weight: 700; color: var(--pink-main); display: block; }
-        .stat-label { font-size: 0.65rem; color: #888; text-transform: uppercase; }
+        .stat-value { font-size: 1.3rem; font-weight: 700; color: var(--pink-main); display: block; }
+        .stat-label { font-size: 0.7rem; color: #777; text-transform: uppercase; letter-spacing: 1px; }
 
         #stage { width: 100vw; height: 100vh; position: relative; }
 
         .target {
             position: absolute; border-radius: 50%; object-fit: cover;
-            border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 4px solid white; box-shadow: 0 6px 15px rgba(0,0,0,0.15);
             cursor: pointer; user-select: none;
             /* MOBILE OPTIMIZATION */
             will-change: transform;
             transform: translate3d(0,0,0);
             contain: layout paint;
+            /* Anti-lag untuk rotasi */
+            backface-visibility: hidden;
         }
 
-        .good { border-color: var(--pink-main); }
-        .bad { border-color: #555; }
-        .bonus { border-color: #ffca3a; animation: glow 0.5s infinite alternate; }
+        .good { border-color: var(--pink-main); } /* Foto Nadaa */
+        .bad { border-color: var(--bule-border); filter: saturate(1.2); } /* Kucing Bule */
+        .bonus { border-color: #ffca3a; animation: glow 0.4s infinite alternate; } /* Foto Abang */
 
-        @keyframes glow { from { box-shadow: 0 0 5px #ffca3a; } to { box-shadow: 0 0 15px #ffca3a; } }
+        @keyframes glow { from { box-shadow: 0 0 8px #ffca3a; } to { box-shadow: 0 0 20px #ffca3a; } }
 
         .popup {
-            position: absolute; pointer-events: none; font-weight: bold; font-size: 1rem;
-            animation: floatUp 0.6s forwards; z-index: 200;
+            position: absolute; pointer-events: none; font-weight: bold; font-size: 1.1rem;
+            animation: floatUp 0.7s forwards; z-index: 200;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
         }
 
         @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-80px); }
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-120px) scale(1.2); }
         }
 
         .overlay {
-            position: fixed; inset: 0; background: rgba(255, 245, 247, 0.98);
+            position: fixed; inset: 0; background: rgba(255, 245, 247, 0.99);
             display: flex; flex-direction: column; align-items: center;
-            justify-content: center; z-index: 1000; text-align: center; padding: 20px;
+            justify-content: center; z-index: 1000; text-align: center; padding: 25px;
         }
 
         #my-photo-final {
-            width: 160px; height: 160px; border-radius: 20px; border: 5px solid white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); object-fit: cover;
-            margin-bottom: 15px; animation: heartBeat 1.5s infinite;
+            width: 190px; height: 190px; border-radius: 25px; border: 7px solid white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15); object-fit: cover;
+            margin-bottom: 20px; animation: heartBeat 1.4s infinite;
         }
 
         @keyframes heartBeat {
             0% { transform: scale(1); }
-            14% { transform: scale(1.08); }
+            14% { transform: scale(1.1); }
             28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
         }
 
         .btn {
             background: var(--pink-main); color: white; border: none;
-            padding: 14px 35px; font-size: 1.1rem; font-weight: bold;
-            border-radius: 50px; cursor: pointer; transition: 0.2s; margin-top: 15px;
+            padding: 16px 45px; font-size: 1.2rem; font-weight: bold;
+            border-radius: 50px; cursor: pointer; transition: 0.2s; margin-top: 20px;
+            box-shadow: 0 6px 15px rgba(251, 111, 146, 0.3);
         }
+        .btn:hover { background: var(--pink-dark); transform: translateY(-3px) scale(1.03); }
     </style>
 </head>
 <body>
@@ -106,20 +114,20 @@
 
     <div id="stage">
         <div id="start-overlay" class="overlay">
-            <h1 style="color:var(--pink-main); margin-bottom: 10px;">CATCH MY MOOD! 🌸</h1>
-            <p style="color: #666; max-width: 85%; font-size: 0.9rem; line-height: 1.5;">
-                <b>Target Skor: 150</b><br><br>
-                ✨ Foto Cantik (Nadaa): <b>+10</b><br>
-                ✨ Foto Abang: <b>+50</b><br>
-                🚫 Si Bule: <b>-20</b>
+            <h1 style="color:var(--pink-main); font-size: 2rem; margin-bottom: 15px;">CATCH MY MOOD! ❤️</h1>
+            <p style="color: #555; max-width: 90%; font-size: 0.95rem; line-height: 1.6; background: rgba(255,255,255,0.7); padding: 15px; border-radius: 15px; border: 1px solid var(--pink-light);">
+                <b style="font-size: 1.1rem; color: var(--pink-dark);">Target Skor: 150 Poin</b><br><br>
+                ✨ Foto Cantik (nadaa): <b>+10</b> (Cepat!)<br>
+                ✨ Foto Abang: <b>+50</b> (<b>JACKPOT!</b> Lari Cepat)<br>
+                🚫 Bule Ngambek: <b>-20</b> (Banyak & Ganggu)
             </p>
             <button class="btn" onclick="startGame()">AYO MAIN!</button>
         </div>
 
         <div id="end-overlay" class="overlay" style="display:none">
             <img src="foto-cowok.jpg" alt="Me" id="my-photo-final">
-            <h2 id="final-score" style="color:var(--pink-main); margin:5px 0;"></h2>
-            <p id="caption" style="font-style: italic; color: #555; max-width: 85%; font-size: 0.95rem;"></p>
+            <h2 id="final-score" style="color:var(--pink-main); margin:10px 0;"></h2>
+            <p id="caption" style="font-style: italic; color: #444; max-width: 85%; font-size: 1rem; line-height: 1.5;"></p>
             <button class="btn" onclick="location.reload()">MAIN LAGI</button>
         </div>
     </div>
@@ -146,39 +154,49 @@
                 this.el = document.createElement('img');
                 const rand = Math.random();
                 
-                if (rand < 0.5) {
+                // RASIO SPAWN (Bule dibuat sangat banyak)
+                if (rand < 0.40) { // Nadaa (good) - 40% chance
                     this.el.src = 'foto-senyum.jpg'; 
                     this.type = 'good';
                     this.el.className = 'target good';
                     this.pointValue = 10;
-                    this.popupMsg = "+10 Cantik! ✨";
-                } else if (rand < 0.85) { 
+                    this.popupMsg = "+10 Cantik! ❤️";
+                    this.speedMult = 10 + (level * 2.5); // Lebih cepat dari sebelumnya
+                } else if (rand < 0.92) { // Bule (bad) - 52% chance (DIKECILKAN chance Bonus)
                     this.el.src = 'foto-ngambek.jpg'; 
                     this.type = 'bad';
                     this.el.className = 'target bad';
                     this.pointValue = -20;
-                    this.popupMsg = "-20 Bule! 😼";
-                } else {
+                    this.popupMsg = "-20 Bule Ngambek! 😼";
+                    this.speedMult = 7 + (level * 2); // Bule gerak standar tapi banyak
+                } else { // Abang (bonus) - 8% chance (Langka & Cepat Banget)
                     this.el.src = 'foto-lucu.jpg'; 
                     this.type = 'bonus';
                     this.el.className = 'target bonus';
                     this.pointValue = 50;
-                    this.popupMsg = "+50 Abang! ❤️";
+                    this.popupMsg = "JACKPOT! +50 ❤️";
+                    this.speedMult = 20 + (level * 4); // LARI KESETANAN (Cepat Banget)
                 }
 
-                this.size = 65 + (Math.random() * 20);
+                this.size = 70 + (Math.random() * 25); // Ukuran variasi
                 this.el.style.width = this.size + 'px';
                 this.el.style.height = this.size + 'px';
 
+                // Posisi Awal Acak (Jauh dari Header)
                 this.x = Math.random() * (window.innerWidth - this.size);
-                this.y = Math.random() * (window.innerHeight - this.size - 130) + 130;
+                this.y = Math.random() * (window.innerHeight - this.size - 140) + 140;
                 
-                const speedBase = 5 + (level * 1.2); 
-                this.dx = (Math.random() - 0.5) * speedBase;
-                this.dy = (Math.random() - 0.5) * speedBase;
+                // KECEPATAN BERDASARKAN TIPE FOTO
+                this.dx = (Math.random() - 0.5) * this.speedMult;
+                this.dy = (Math.random() - 0.5) * this.speedMult;
+                
+                // ROTASI DIPERHALUS
+                this.rot = 0;
+                this.rotSpeed = (Math.random() - 0.5) * (6 + level);
 
-                // Bind hit events
+                // TOUCH OPTIMIZED
                 const onHit = (e) => {
+                    if (!gameActive) return;
                     e.preventDefault();
                     e.stopPropagation();
                     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -195,16 +213,17 @@
             update() {
                 this.x += this.dx;
                 this.y += this.dy;
+                this.rot += this.rotSpeed;
 
+                // Pantulan Dinding
                 if (this.x <= 0 || this.x >= window.innerWidth - this.size) this.dx *= -1;
-                if (this.y <= 130 || this.y >= window.innerHeight - this.size) this.dy *= -1;
+                if (this.y <= 140 || this.y >= window.innerHeight - this.size) this.dy *= -1;
 
-                // GPU ACCELERATED MOVEMENT
-                this.el.style.transform = `translate3d(${Math.round(this.x)}px, ${Math.round(this.y)}px, 0)`;
+                // GPU ACCELERATED MOVEMENT (Math.round biar mulus di HP)
+                this.el.style.transform = `translate3d(${Math.round(this.x)}px, ${Math.round(this.y)}px, 0) rotate(${this.rot}deg)`;
             }
 
             hit(x, y) {
-                if (!gameActive) return;
                 score += this.pointValue;
                 scoreEl.innerText = score;
                 createPopup(this.popupMsg, x, y, (this.type === 'bad' ? '#555' : '#fb6f92'));
@@ -219,11 +238,12 @@
             }
         }
 
+        // Penalti Klik Meleset
         stage.addEventListener('touchstart', (e) => {
             if (!gameActive) return;
             score -= 2;
             scoreEl.innerText = score;
-            createPopup("-2!", e.touches[0].clientX, e.touches[0].clientY, "#888");
+            createPopup("-2 Meleset! 💨", e.touches[0].clientX, e.touches[0].clientY, "#888");
         }, {passive: true});
 
         function createPopup(txt, x, y, color) {
@@ -232,7 +252,7 @@
             p.innerText = txt;
             p.style.left = x + 'px'; p.style.top = y + 'px'; p.style.color = color;
             document.body.appendChild(p);
-            setTimeout(() => p.remove(), 600);
+            setTimeout(() => p.remove(), 700);
         }
 
         function gameLoop() {
@@ -248,24 +268,31 @@
             gameActive = true;
             startOverlay.style.display = 'none';
             scoreEl.innerText = score;
+            lvlEl.innerText = level;
             
-            bgm.play().catch(() => {});
+            // Putar Musik
+            bgm.play().catch(e => console.log("Musik butuh interaksi user"));
 
             gameLoop();
 
+            // SPAWN LEBIH AGRESIF SESUAI LEVEL
             spawnInterval = setInterval(() => {
-                if (targets.length < 7 + level) {
+                // Maksimal foto di layar dibatasi biar HP gak meledak
+                if (targets.length < Math.min(15, 8 + level)) {
                     targets.push(new MovingPhoto());
                 }
-            }, 700 - (level * 40));
+            }, 600 - (level * 45));
 
             const countdown = setInterval(() => {
                 timeLeft--;
                 timerEl.innerText = timeLeft;
-                if (timeLeft % 12 === 0 && timeLeft > 0) { 
+                
+                // Level Up tiap 10 detik
+                if (timeLeft % 10 === 0 && timeLeft > 0) { 
                     level++; 
                     lvlEl.innerText = level; 
                 }
+
                 if (timeLeft <= 0) {
                     clearInterval(countdown);
                     clearInterval(spawnInterval);
@@ -277,14 +304,17 @@
         function endGame() {
             gameActive = false;
             bgm.pause();
+            bgm.currentTime = 0; // Reset musik ke awal
             targets.forEach(t => t.remove());
-            document.getElementById('final-score').innerText = "Skor: " + score;
+            document.getElementById('final-score').innerText = "Skor Akhir: " + score;
             
+            // LOGIKA CAPTION BERDASARKAN SKOR
             if (score >= 150) {
-                captionEl.innerHTML = "Gila! Skor kamu "+score+"! 😍<br>Kamu jago banget nangkep kebahagiaan. Pantesan aku juga ketangkep sama kamu. Love you sayangnya abang! ❤️";
+                captionEl.innerHTML = "Gila! Skor kamu "+score+"! 😍<br>Kamu emang jago banget nangkep kebahagiaan. Fokusnya ngeri, pantesan aku juga ketangkep sama kamu. Love you sayangnya abang! ❤️";
             } else {
-                captionEl.innerHTML = "Skornya "+score+" nih, diganggu Bule ya? 😂<br>Gak papa, yang penting kamu usaha. Senyum lagi dong, masa kalah sama foto lari-lari. Semangat ya harinya! ❤️";
+                captionEl.innerHTML = "Skornya "+score+" nih, kena gangguan Bule ya? 😂<br>Gak papa, yang penting kamu udah usaha. Senyum lagi dong, masa kalah sama foto yang lari-lari. Semangat ya harinya! ❤️";
             }
+
             endOverlay.style.display = 'flex';
         }
     </script>
