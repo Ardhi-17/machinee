@@ -13,6 +13,11 @@
             --cream: #fff5f7;
         }
 
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
             margin: 0; padding: 0; height: 100vh;
             background-color: var(--cream);
@@ -25,41 +30,41 @@
         .header {
             position: fixed; top: 15px; width: 90%; left: 50%; transform: translateX(-50%);
             display: flex; justify-content: space-around; padding: 10px;
-            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px);
             z-index: 100; border-radius: 20px; border: 2px solid white;
-            box-shadow: 0 10px 25px rgba(251, 111, 146, 0.2);
+            box-shadow: 0 8px 20px rgba(251, 111, 146, 0.15);
         }
 
         .stat-item { text-align: center; }
-        .stat-value { font-size: 1.2rem; font-weight: 700; color: var(--pink-main); display: block; }
-        .stat-label { font-size: 0.7rem; color: #888; text-transform: uppercase; }
+        .stat-value { font-size: 1.1rem; font-weight: 700; color: var(--pink-main); display: block; }
+        .stat-label { font-size: 0.65rem; color: #888; text-transform: uppercase; }
 
-        #stage { width: 100vw; height: 100vh; position: relative; cursor: crosshair; }
+        #stage { width: 100vw; height: 100vh; position: relative; }
 
         .target {
             position: absolute; border-radius: 50%; object-fit: cover;
-            border: 4px solid white; box-shadow: 0 5px 15px rgba(251, 111, 146, 0.3);
+            border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             cursor: pointer; user-select: none;
-            /* OPTIMASI HP */
+            /* MOBILE OPTIMIZATION */
             will-change: transform;
             transform: translate3d(0,0,0);
-            backface-visibility: hidden;
+            contain: layout paint;
         }
 
         .good { border-color: var(--pink-main); }
         .bad { border-color: #555; }
         .bonus { border-color: #ffca3a; animation: glow 0.5s infinite alternate; }
 
-        @keyframes glow { from { box-shadow: 0 0 10px #ffca3a; } to { box-shadow: 0 0 25px #ffca3a; } }
+        @keyframes glow { from { box-shadow: 0 0 5px #ffca3a; } to { box-shadow: 0 0 15px #ffca3a; } }
 
         .popup {
-            position: absolute; pointer-events: none; font-weight: bold;
-            animation: floatUp 0.7s forwards; z-index: 200;
+            position: absolute; pointer-events: none; font-weight: bold; font-size: 1rem;
+            animation: floatUp 0.6s forwards; z-index: 200;
         }
 
         @keyframes floatUp {
             0% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-100px); }
+            100% { opacity: 0; transform: translateY(-80px); }
         }
 
         .overlay {
@@ -69,30 +74,27 @@
         }
 
         #my-photo-final {
-            width: 180px; height: 180px; border-radius: 20px; border: 6px solid white;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); object-fit: cover;
-            margin-bottom: 20px; animation: heartBeat 1.5s infinite;
+            width: 160px; height: 160px; border-radius: 20px; border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); object-fit: cover;
+            margin-bottom: 15px; animation: heartBeat 1.5s infinite;
         }
 
         @keyframes heartBeat {
             0% { transform: scale(1); }
-            14% { transform: scale(1.1); }
+            14% { transform: scale(1.08); }
             28% { transform: scale(1); }
-            42% { transform: scale(1.1); }
-            70% { transform: scale(1); }
         }
 
         .btn {
             background: var(--pink-main); color: white; border: none;
-            padding: 15px 40px; font-size: 1.1rem; font-weight: bold;
-            border-radius: 50px; cursor: pointer; transition: 0.3s; margin-top: 20px;
+            padding: 14px 35px; font-size: 1.1rem; font-weight: bold;
+            border-radius: 50px; cursor: pointer; transition: 0.2s; margin-top: 15px;
         }
-        .btn:hover { background: var(--pink-dark); transform: scale(1.05); }
     </style>
 </head>
 <body>
 
-    <audio id="bgm" loop>
+    <audio id="bgm" loop preload="auto">
         <source src="musik.mp3" type="audio/mpeg">
     </audio>
 
@@ -104,21 +106,20 @@
 
     <div id="stage">
         <div id="start-overlay" class="overlay">
-            <h1 style="color:var(--pink-main)">CATCH MY MOOD! 🌸</h1>
-            <p style="color: #666; max-width: 80%; line-height: 1.6;">
-                <b>Target Skor: 150 Poin</b><br><br>
-                ✨ Foto Cantik (nadaa): <b>+10</b><br>
-                ✨ Foto Abang : <b>+50</b><br>
-                🚫 SI Bule: <b>-20</b><br><br>
-                <i>Hati-hati Bule bakal sering gangguin kamu!</i>
+            <h1 style="color:var(--pink-main); margin-bottom: 10px;">CATCH MY MOOD! 🌸</h1>
+            <p style="color: #666; max-width: 85%; font-size: 0.9rem; line-height: 1.5;">
+                <b>Target Skor: 150</b><br><br>
+                ✨ Foto Cantik (Nadaa): <b>+10</b><br>
+                ✨ Foto Abang: <b>+50</b><br>
+                🚫 Si Bule: <b>-20</b>
             </p>
             <button class="btn" onclick="startGame()">AYO MAIN!</button>
         </div>
 
         <div id="end-overlay" class="overlay" style="display:none">
             <img src="foto-cowok.jpg" alt="Me" id="my-photo-final">
-            <h2 id="final-score" style="color:var(--pink-main); margin:0;"></h2>
-            <p id="caption" style="font-style: italic; color: #555; max-width: 80%; margin: 15px 0;"></p>
+            <h2 id="final-score" style="color:var(--pink-main); margin:5px 0;"></h2>
+            <p id="caption" style="font-style: italic; color: #555; max-width: 85%; font-size: 0.95rem;"></p>
             <button class="btn" onclick="location.reload()">MAIN LAGI</button>
         </div>
     </div>
@@ -156,41 +157,37 @@
                     this.type = 'bad';
                     this.el.className = 'target bad';
                     this.pointValue = -20;
-                    this.popupMsg = "-20 Bule Ngambek! 😼";
+                    this.popupMsg = "-20 Bule! 😼";
                 } else {
                     this.el.src = 'foto-lucu.jpg'; 
                     this.type = 'bonus';
                     this.el.className = 'target bonus';
                     this.pointValue = 50;
-                    this.popupMsg = "+50 Ada Abang! ❤️";
+                    this.popupMsg = "+50 Abang! ❤️";
                 }
 
-                this.size = 70 + (Math.random() * 25);
+                this.size = 65 + (Math.random() * 20);
                 this.el.style.width = this.size + 'px';
                 this.el.style.height = this.size + 'px';
 
                 this.x = Math.random() * (window.innerWidth - this.size);
-                this.y = Math.random() * (window.innerHeight - this.size - 120) + 120;
+                this.y = Math.random() * (window.innerHeight - this.size - 130) + 130;
                 
-                // SPEED OPTIMIZED
-                const speedBase = 6 + (level * 1.5); 
+                const speedBase = 5 + (level * 1.2); 
                 this.dx = (Math.random() - 0.5) * speedBase;
                 this.dy = (Math.random() - 0.5) * speedBase;
-                
-                this.rot = 0;
-                this.rotSpeed = (Math.random() - 0.5) * (4 + level);
 
-                // TOUCH OPTIMIZED
-                this.el.addEventListener('touchstart', (e) => {
+                // Bind hit events
+                const onHit = (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    this.hit(e.touches[0].clientX, e.touches[0].clientY);
-                }, {passive: false});
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                    this.hit(clientX, clientY);
+                };
 
-                this.el.addEventListener('mousedown', (e) => {
-                    e.stopPropagation();
-                    this.hit(e.clientX, e.clientY);
-                });
+                this.el.addEventListener('touchstart', onHit, {passive: false});
+                this.el.addEventListener('mousedown', onHit);
 
                 stage.appendChild(this.el);
             }
@@ -198,13 +195,12 @@
             update() {
                 this.x += this.dx;
                 this.y += this.dy;
-                this.rot += this.rotSpeed;
 
                 if (this.x <= 0 || this.x >= window.innerWidth - this.size) this.dx *= -1;
-                if (this.y <= 120 || this.y >= window.innerHeight - this.size) this.dy *= -1;
+                if (this.y <= 130 || this.y >= window.innerHeight - this.size) this.dy *= -1;
 
-                // USE TRANSLATE3D FOR GPU ACCELERATION (MAKES IT SMOOTH ON MOBILE)
-                this.el.style.transform = `translate3d(${this.x}px, ${this.y}px, 0) rotate(${this.rot}deg)`;
+                // GPU ACCELERATED MOVEMENT
+                this.el.style.transform = `translate3d(${Math.round(this.x)}px, ${Math.round(this.y)}px, 0)`;
             }
 
             hit(x, y) {
@@ -223,12 +219,12 @@
             }
         }
 
-        stage.addEventListener('mousedown', (e) => {
+        stage.addEventListener('touchstart', (e) => {
             if (!gameActive) return;
             score -= 2;
             scoreEl.innerText = score;
-            createPopup("-2 Meleset! 💨", e.clientX, e.clientY, "#888");
-        });
+            createPopup("-2!", e.touches[0].clientX, e.touches[0].clientY, "#888");
+        }, {passive: true});
 
         function createPopup(txt, x, y, color) {
             const p = document.createElement('div');
@@ -236,12 +232,11 @@
             p.innerText = txt;
             p.style.left = x + 'px'; p.style.top = y + 'px'; p.style.color = color;
             document.body.appendChild(p);
-            setTimeout(() => p.remove(), 700);
+            setTimeout(() => p.remove(), 600);
         }
 
         function gameLoop() {
             if (!gameActive) return;
-            // UPDATE ALL TARGETS
             for (let i = 0; i < targets.length; i++) {
                 targets[i].update();
             }
@@ -253,28 +248,24 @@
             gameActive = true;
             startOverlay.style.display = 'none';
             scoreEl.innerText = score;
-            lvlEl.innerText = level;
             
-            bgm.play().catch(e => console.log("Music needs interaction"));
+            bgm.play().catch(() => {});
 
             gameLoop();
 
             spawnInterval = setInterval(() => {
-                // BATASI JUMLAH FOTO DI LAYAR BIAR HP GAK LAG
-                if (targets.length < 8 + level) {
+                if (targets.length < 7 + level) {
                     targets.push(new MovingPhoto());
                 }
-            }, 600 - (level * 30));
+            }, 700 - (level * 40));
 
             const countdown = setInterval(() => {
                 timeLeft--;
                 timerEl.innerText = timeLeft;
-                
-                if (timeLeft % 10 === 0 && timeLeft > 0) { 
+                if (timeLeft % 12 === 0 && timeLeft > 0) { 
                     level++; 
                     lvlEl.innerText = level; 
                 }
-
                 if (timeLeft <= 0) {
                     clearInterval(countdown);
                     clearInterval(spawnInterval);
@@ -287,14 +278,13 @@
             gameActive = false;
             bgm.pause();
             targets.forEach(t => t.remove());
-            document.getElementById('final-score').innerText = "Skor Kamu: " + score;
+            document.getElementById('final-score').innerText = "Skor: " + score;
             
             if (score >= 150) {
-                captionEl.innerHTML = "Gila! Skor kamu "+score+"! 😍<br>Kamu emang jago banget nangkep kebahagiaan. Fokusnya ngeri, pantesan aku juga ketangkep sama kamu. Love you sayangnya abang! ❤️";
+                captionEl.innerHTML = "Gila! Skor kamu "+score+"! 😍<br>Kamu jago banget nangkep kebahagiaan. Pantesan aku juga ketangkep sama kamu. Love you sayangnya abang! ❤️";
             } else {
-                captionEl.innerHTML = "Skornya "+score+" nih, kena gangguan Bule ya? 😂<br>Gak papa, yang penting kamu udah usaha. Senyum lagi dong, masa kalah sama foto yang lari-lari. Semangat ya harinya! ❤️";
+                captionEl.innerHTML = "Skornya "+score+" nih, diganggu Bule ya? 😂<br>Gak papa, yang penting kamu usaha. Senyum lagi dong, masa kalah sama foto lari-lari. Semangat ya harinya! ❤️";
             }
-
             endOverlay.style.display = 'flex';
         }
     </script>
